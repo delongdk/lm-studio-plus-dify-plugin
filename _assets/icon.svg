@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e"/>
+      <stop offset="100%" style="stop-color:#16213e"/>
+    </linearGradient>
+  </defs>
+  <!-- Dark rounded square background -->
+  <rect x="0" y="0" width="256" height="256" rx="40" ry="40" fill="url(#bg)"/>
+  <!-- "LM" large text -->
+  <text x="128" y="82" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="80" fill="#e0e0e0" text-anchor="middle" dominant-baseline="middle" letter-spacing="-2">LM</text>
+  <!-- "Studio" smaller text -->
+  <text x="128" y="138" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="40" fill="#a78bfa" text-anchor="middle" dominant-baseline="middle" letter-spacing="4">Studio</text>
+  <!-- Divider line -->
+  <line x1="60" y1="162" x2="196" y2="162" stroke="#a78bfa" stroke-width="1.5" opacity="0.5"/>
+  <!-- Plugin badge -->
+  <rect x="68" y="176" width="120" height="32" rx="16" ry="16" fill="#a78bfa" opacity="0.2"/>
+  <rect x="68" y="176" width="120" height="32" rx="16" ry="16" fill="none" stroke="#a78bfa" stroke-width="1.5" opacity="0.6"/>
+  <!-- Plug icon inside badge -->
+  <g transform="translate(88, 184)" fill="#a78bfa">
+    <rect x="2" y="0" width="3" height="7" rx="1"/>
+    <rect x="9" y="0" width="3" height="7" rx="1"/>
+    <rect x="0" y="6" width="14" height="8" rx="2"/>
+    <rect x="4" y="14" width="6" height="4" rx="1"/>
+  </g>
+  <!-- "PLUS" text in badge -->
+  <text x="148" y="193" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="16" fill="#a78bfa" text-anchor="middle" dominant-baseline="middle" letter-spacing="3">PLUS</text>
+</svg>
