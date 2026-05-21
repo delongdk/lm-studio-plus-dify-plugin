@@ -1,7 +1,7 @@
 # LM Studio Plus — Dify 插件
 
 **作者：** [delongdk](https://github.com/delongdk)  
-**版本：** 0.0.1  
+**版本：** 0.0.2
 **类型：** model  
 
 将 [LM Studio](https://lmstudio.ai/) 本地模型接入 [Dify](https://dify.ai/)。
@@ -18,7 +18,7 @@ Dify 插件市场现有的 [LM Studio 插件](https://github.com/stvlynn/lmstudi
 - **推理/思考** — 流式输出 `reasoning_content`，自动包裹 `<think>` 标签
 - **工具调用** — 支持 OpenAI function calling 格式，流式工具调用聚合
 - **视觉识别** — 支持多模态图像输入（可按模型配置）
-- **结构化输出** — 支持 `json_object` 和 `json_schema` 两种 response_format；schema 自动注入系统提示词
+- **结构化输出** — 支持通用 JSON 模式和 JSON Schema 约束；schema 自动注入系统提示词
 - **API Key 认证** — 可选的 API Key 支持，用于访问启用了认证的 LM Studio 服务器
 - **可自定义参数** — temperature、top_p、top_k、max_tokens、presence_penalty、frequency_penalty、repeat_penalty、seed
 

@@ -1,7 +1,7 @@
 # LM Studio Plus — Dify プラグイン
 
 **作者：** [delongdk](https://github.com/delongdk)  
-**バージョン：** 0.0.1  
+**バージョン：** 0.0.2
 **タイプ：** model  
 
 [LM Studio](https://lmstudio.ai/) のローカルモデルを [Dify](https://dify.ai/) に接続します。
@@ -18,7 +18,7 @@ Dify マーケットプレイスの既存 [LM Studio プラグイン](https://gi
 - **推論 / 思考** — `reasoning_content` のストリーミング出力（`<think>` タグ付き）
 - **ツール呼び出し** — OpenAI function calling 形式対応、ストリーミングツールコール集約
 - **ビジョン** — マルチモーダル画像入力対応（モデルごとに設定可能）
-- **構造化出力** — `json_object` / `json_schema` の response_format 対応；スキーマをシステムプロンプトに自動挿入
+- **構造化出力** — 汎用 JSON モードと JSON Schema 制約に対応；スキーマをシステムプロンプトに自動挿入
 - **API Key 認証** — オプションの API Key 対応、認証が有効な LM Studio サーバーへのアクセスに使用
 - **カスタマイズ可能なパラメータ** — temperature、top_p、top_k、max_tokens、presence_penalty、frequency_penalty、repeat_penalty、seed
 

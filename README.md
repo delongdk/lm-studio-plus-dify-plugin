@@ -1,7 +1,7 @@
 # LM Studio Plus — Dify Plugin
 
 **Author:** [delongdk](https://github.com/delongdk)  
-**Version:** 0.0.1  
+**Version:** 0.0.2
 **Type:** model  
 
 Connect your [LM Studio](https://lmstudio.ai/) local models to [Dify](https://dify.ai/).
@@ -19,7 +19,7 @@ The existing [LM Studio plugin](https://github.com/stvlynn/lmstudio-Dify-Plugin)
 - **Reasoning / Thinking** — streams `reasoning_content` with `<think>` tag wrapping
 - **Tool Calling** — OpenAI function calling format with streaming tool call aggregation
 - **Vision** — multi-modal image input support (configurable per model)
-- **Structured Output** — `response_format` with `json_object` and `json_schema` types; schema auto-injected into system prompt
+- **Structured Output** — generic JSON mode and JSON Schema constraints; schema auto-injected into system prompt
 - **API Key Authentication** — optional API key support for secured LM Studio server access
 - **Customizable Parameters** — temperature, top_p, top_k, max_tokens, presence_penalty, frequency_penalty, repeat_penalty, seed
 

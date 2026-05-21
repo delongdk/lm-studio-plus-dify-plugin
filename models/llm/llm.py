@@ -197,11 +197,21 @@ class LmStudioPlusLargeLanguageModel(LargeLanguageModel):
             if param_key in model_parameters and model_parameters[param_key] is not None:
                 data[api_key] = model_parameters[param_key]
 
-        # Handle format: first read "format", then let "json_schema" override it
+        # Handle structured output settings.
+        # LM Studio only accepts response_format.type of "json_schema" or "text",
+        # not "json_object". So generic JSON mode is represented by a permissive
+        # JSON schema, and an explicit json_schema parameter overrides that fallback.
         if "format" in model_parameters:
             fmt = model_parameters["format"]
             if fmt == "json":
-                data["response_format"] = {"type": "json_object"}
+                data["response_format"] = {
+                    "type": "json_schema",
+                    "json_schema": {
+                        "name": "json_object",
+                        "strict": False,
+                        "schema": {},
+                    },
+                }
 
         if "json_schema" in model_parameters:
             json_schema_str = model_parameters.get("json_schema", "")
@@ -718,8 +728,8 @@ class LmStudioPlusLargeLanguageModel(LargeLanguageModel):
                     label=I18nObject(en_US="Format", zh_Hans="返回格式"),
                     type=ParameterType.STRING,
                     help=I18nObject(
-                        en_US="the format to return a response in. Currently the only accepted value is json.",
-                        zh_Hans="返回响应的格式。目前唯一接受的值是json。",
+                        en_US="Controls the response format. The only accepted value is json, which enables generic JSON output. If JSON Schema is provided below, it overrides this setting.",
+                        zh_Hans="控制响应格式。目前唯一接受的值是 json，它会启用通用 JSON 输出。如果下方提供了 JSON Schema，则会覆盖此设置。",
                     ),
                     options=["json"],
                 ),
@@ -728,8 +738,8 @@ class LmStudioPlusLargeLanguageModel(LargeLanguageModel):
                     label=I18nObject(en_US="JSON Schema", zh_Hans="JSON Schema"),
                     type=ParameterType.STRING,
                     help=I18nObject(
-                        en_US="A JSON Schema string to enforce structured output. Only effective when Response Format is set to 'json_schema'.",
-                        zh_Hans="用于强制结构化输出的 JSON Schema 字符串。仅在返回格式设置为 'json_schema' 时生效。",
+                        en_US="Optional JSON Schema string to enforce structured output. When provided, it overrides generic JSON mode and constrains the response to the schema.",
+                        zh_Hans="可选的 JSON Schema 字符串，用于强制结构化输出。提供后会覆盖通用 JSON 模式，并将响应约束到该 schema。",
                     ),
                 ),
             ],
