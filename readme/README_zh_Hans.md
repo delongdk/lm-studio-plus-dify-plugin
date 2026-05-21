@@ -39,7 +39,57 @@ Dify 插件市场现有的 [LM Studio 插件](https://github.com/stvlynn/lmstudi
 
 ### 2. 安装插件
 
-从 Dify 插件市场搜索安装 **LM Studio Plus**，或从源码手动安装。
+可按以下任一方式安装：
+
+#### 方案 A：使用 GitHub Releases 中已打好的文件
+
+1. 下载最新 release 资产：
+   - `lm_studio_plus-<version>.signed.difypkg`
+   - `lm_studio_plus.public.pem`
+2. 如果你的 Dify Community Edition 开启了第三方签名校验，请先把公钥放到 `plugin_daemon` 可访问的位置：
+
+   ```bash
+   mkdir -p docker/volumes/plugin_daemon/public_keys
+   cp lm_studio_plus.public.pem docker/volumes/plugin_daemon/public_keys/
+   ```
+
+3. 在 `plugin_daemon` 中配置该公钥：
+
+   ```yaml
+   services:
+     plugin_daemon:
+       environment:
+         FORCE_VERIFYING_SIGNATURE: true
+         THIRD_PARTY_SIGNATURE_VERIFICATION_ENABLED: true
+         THIRD_PARTY_SIGNATURE_VERIFICATION_PUBLIC_KEYS: /app/storage/public_keys/lm_studio_plus.public.pem
+   ```
+
+4. 重启 Dify，然后在 Dify 中上传签名包：
+
+   ```bash
+   cd docker
+   docker compose down
+   docker compose up -d
+   ```
+
+5. 进入 **设置 → 插件**，上传 `lm_studio_plus-<version>.signed.difypkg`。
+
+如果未开启第三方签名校验，也可以直接上传未签名的 `lm_studio_plus-<version>.difypkg`。
+
+#### 方案 B：本地打包并签名
+
+在插件根目录执行：
+
+```bash
+dify plugin package . -o lm_studio_plus-<version>.difypkg
+dify signature generate -f certs/lm_studio_plus
+dify signature sign lm_studio_plus-<version>.difypkg -p certs/lm_studio_plus.private.pem
+dify signature verify lm_studio_plus-<version>.signed.difypkg -p certs/lm_studio_plus.public.pem
+```
+
+然后按上面的 Dify 公钥配置步骤完成配置，并上传签名包。
+
+> **说明：** 第三方签名校验目前仅适用于 Dify Community Edition。
 
 ### 3. 添加模型
 

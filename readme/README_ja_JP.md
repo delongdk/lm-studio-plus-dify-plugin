@@ -39,7 +39,57 @@ Dify マーケットプレイスの既存 [LM Studio プラグイン](https://gi
 
 ### 2. プラグインのインストール
 
-Dify マーケットプレイスから **LM Studio Plus** を検索してインストール、またはソースから手動インストール。
+以下のいずれかの方法でインストールできます。
+
+#### 方法 A: GitHub Releases のビルド済みアセットを使う
+
+1. 最新リリースから次のファイルをダウンロードします。
+   - `lm_studio_plus-<version>.signed.difypkg`
+   - `lm_studio_plus.public.pem`
+2. Dify Community Edition でサードパーティ署名検証を有効にしている場合は、まず公開鍵を `plugin_daemon` から参照できる場所に配置します。
+
+   ```bash
+   mkdir -p docker/volumes/plugin_daemon/public_keys
+   cp lm_studio_plus.public.pem docker/volumes/plugin_daemon/public_keys/
+   ```
+
+3. `plugin_daemon` にその公開鍵を設定します。
+
+   ```yaml
+   services:
+     plugin_daemon:
+       environment:
+         FORCE_VERIFYING_SIGNATURE: true
+         THIRD_PARTY_SIGNATURE_VERIFICATION_ENABLED: true
+         THIRD_PARTY_SIGNATURE_VERIFICATION_PUBLIC_KEYS: /app/storage/public_keys/lm_studio_plus.public.pem
+   ```
+
+4. Dify を再起動してから、署名済みパッケージをアップロードします。
+
+   ```bash
+   cd docker
+   docker compose down
+   docker compose up -d
+   ```
+
+5. Dify の **設定 → プラグイン** から `lm_studio_plus-<version>.signed.difypkg` をアップロードします。
+
+サードパーティ署名検証を有効にしていない場合は、未署名の `lm_studio_plus-<version>.difypkg` をそのままアップロードすることもできます。
+
+#### 方法 B: ローカルでパッケージ化して署名する
+
+プラグインのルートで次を実行します。
+
+```bash
+dify plugin package . -o lm_studio_plus-<version>.difypkg
+dify signature generate -f certs/lm_studio_plus
+dify signature sign lm_studio_plus-<version>.difypkg -p certs/lm_studio_plus.private.pem
+dify signature verify lm_studio_plus-<version>.signed.difypkg -p certs/lm_studio_plus.public.pem
+```
+
+その後、上記の Dify 公開鍵設定手順を行い、署名済みパッケージをアップロードしてください。
+
+> **注:** サードパーティ署名検証は Dify Community Edition でのみ利用できます。
 
 ### 3. モデルの追加
 

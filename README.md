@@ -40,7 +40,57 @@ The existing [LM Studio plugin](https://github.com/stvlynn/lmstudio-Dify-Plugin)
 
 ### 2. Install Plugin
 
-Install **LM Studio Plus** from Dify Marketplace, or install manually from source.
+Use one of the following installation paths:
+
+#### Option A. Use prebuilt assets from GitHub Releases
+
+1. Download the latest release assets:
+   - `lm_studio_plus-<version>.signed.difypkg`
+   - `lm_studio_plus.public.pem`
+2. If your Dify Community Edition instance enforces third-party signature verification, place the public key where `plugin_daemon` can read it:
+
+   ```bash
+   mkdir -p docker/volumes/plugin_daemon/public_keys
+   cp lm_studio_plus.public.pem docker/volumes/plugin_daemon/public_keys/
+   ```
+
+3. Configure `plugin_daemon` to trust that public key:
+
+   ```yaml
+   services:
+     plugin_daemon:
+       environment:
+         FORCE_VERIFYING_SIGNATURE: true
+         THIRD_PARTY_SIGNATURE_VERIFICATION_ENABLED: true
+         THIRD_PARTY_SIGNATURE_VERIFICATION_PUBLIC_KEYS: /app/storage/public_keys/lm_studio_plus.public.pem
+   ```
+
+4. Restart Dify, then upload the signed package in Dify.
+
+   ```bash
+   cd docker
+   docker compose down
+   docker compose up -d
+   ```
+
+5. In Dify, go to **Settings → Plugins** and upload `lm_studio_plus-<version>.signed.difypkg`.
+
+If third-party signature verification is disabled, you can also upload the unsigned `lm_studio_plus-<version>.difypkg` asset directly.
+
+#### Option B. Package and sign locally
+
+From the plugin root, generate the package and signature artifacts yourself:
+
+```bash
+dify plugin package . -o lm_studio_plus-<version>.difypkg
+dify signature generate -f certs/lm_studio_plus
+dify signature sign lm_studio_plus-<version>.difypkg -p certs/lm_studio_plus.private.pem
+dify signature verify lm_studio_plus-<version>.signed.difypkg -p certs/lm_studio_plus.public.pem
+```
+
+Then follow the same Dify public key configuration steps above and upload the signed package.
+
+> **Note:** Third-party signature verification is available in Dify Community Edition only.
 
 ### 3. Add Model
 

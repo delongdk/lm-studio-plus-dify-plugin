@@ -174,3 +174,7 @@ cython_debug/
 .DS_Store
 .AppleDouble
 .LSOverride
+
+# Local release artifacts
+certs/
+*.difypkg
