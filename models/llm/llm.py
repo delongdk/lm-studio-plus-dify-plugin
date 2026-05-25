@@ -313,7 +313,7 @@ class LmStudioPlusLargeLanguageModel(LargeLanguageModel):
         usage_data = response_json.get("usage", {})
         prompt_tokens = usage_data.get(
             "prompt_tokens",
-            self._get_num_tokens_by_gpt2(prompt_messages[0].content),
+            self._num_tokens_from_messages(prompt_messages),
         )
         completion_tokens = usage_data.get(
             "completion_tokens",
@@ -600,13 +600,32 @@ class LmStudioPlusLargeLanguageModel(LargeLanguageModel):
             ),
         )
 
+    def _num_tokens_from_message_value(self, value: Any) -> int:
+        if value is None:
+            return 0
+
+        if isinstance(value, dict):
+            if value.get("type") == "image_url":
+                # Vision tokenization is model-specific. Count the modality marker,
+                # but do not treat image URLs or base64 payloads as plain text.
+                return self._get_num_tokens_by_gpt2("image_url")
+
+            num_tokens = 0
+            for key, item in value.items():
+                num_tokens += self._get_num_tokens_by_gpt2(str(key))
+                num_tokens += self._num_tokens_from_message_value(item)
+            return num_tokens
+
+        if isinstance(value, list):
+            return sum(self._num_tokens_from_message_value(item) for item in value)
+
+        return self._get_num_tokens_by_gpt2(str(value))
+
     def _num_tokens_from_messages(self, messages: list[PromptMessage]) -> int:
         num_tokens = 0
         messages_dict = [self._convert_prompt_message_to_dict(m) for m in messages]
         for message in messages_dict:
-            for key, value in message.items():
-                num_tokens += self._get_num_tokens_by_gpt2(str(key))
-                num_tokens += self._get_num_tokens_by_gpt2(str(value))
+            num_tokens += self._num_tokens_from_message_value(message)
         return num_tokens
 
     def get_customizable_model_schema(

@@ -1,7 +1,7 @@
 # LM Studio Plus — Dify プラグイン
 
 **作者：** [delongdk](https://github.com/delongdk)  
-**バージョン：** 0.0.2
+**バージョン：** 0.0.3
 **タイプ：** model  
 
 [LM Studio](https://lmstudio.ai/) のローカルモデルを [Dify](https://dify.ai/) に接続します。

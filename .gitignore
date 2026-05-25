@@ -178,3 +178,4 @@ cython_debug/
 # Local release artifacts
 certs/
 *.difypkg
+tests/

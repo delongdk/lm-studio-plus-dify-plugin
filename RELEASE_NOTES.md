@@ -1,3 +1,11 @@
+## v0.0.3 — Vision Token Counting Fallback Fix
+
+### Changes
+
+- Fixed local prompt token fallback for vision requests so image `data:` URLs and base64 payloads are no longer counted as plain text.
+- Unified the non-stream fallback with the message-based estimator to avoid undercounting or overcounting when multiple prompt messages are present.
+- Preserved server-reported usage when available; only the local fallback behavior changed.
+
 ## v0.0.2 — Structured Output Fix, Local Packaging and Signature Verification
 
 ### Changes

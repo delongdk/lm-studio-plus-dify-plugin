@@ -1,7 +1,7 @@
 # LM Studio Plus — Dify Plugin
 
 **Author:** [delongdk](https://github.com/delongdk)  
-**Version:** 0.0.2
+**Version:** 0.0.3
 **Type:** model  
 
 Connect your [LM Studio](https://lmstudio.ai/) local models to [Dify](https://dify.ai/).

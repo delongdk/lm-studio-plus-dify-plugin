@@ -1,7 +1,7 @@
 # LM Studio Plus — Dify 插件
 
 **作者：** [delongdk](https://github.com/delongdk)  
-**版本：** 0.0.2
+**版本：** 0.0.3
 **类型：** model  
 
 将 [LM Studio](https://lmstudio.ai/) 本地模型接入 [Dify](https://dify.ai/)。
